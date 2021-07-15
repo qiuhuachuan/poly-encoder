@@ -56,7 +56,6 @@ class DualPolyEncoder(nn.Module):
         ctxt_poly_embed = self.dot_attention(poly_codes_for_context, context_hidden_state, context_hidden_state)
         ctxt_embed = self.dot_attention(candidate_cls, ctxt_poly_embed, ctxt_poly_embed)
         negative_score = torch.bmm(candidate_cls, ctxt_embed.transpose(1, 2)).flatten()
-        print(negative_score)
 
         poly_codes_for_candidate = self.poly_codes_for_candidate(poly_code_ids)
         cand_poly_embed = self.dot_attention(poly_codes_for_candidate, candidate_hidden_state, candidate_hidden_state)

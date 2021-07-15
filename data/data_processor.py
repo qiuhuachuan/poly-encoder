@@ -15,6 +15,8 @@ file_names = ['train', 'valid', 'test']
 for name in file_names:
     if name == 'train':
         output = []
+        # all_candidates = []
+        last_candidate = ''
         for index, item in enumerate(data[name]):
             context = ''
 
@@ -36,8 +38,28 @@ for name in file_names:
                         'label': 1
                     }
                     output.append(new_item)
+                    if last_candidate == '':
+                        last_candidate = '[therapist]' + response
+                    else:
+                        if last_candidate in context:
+                            new_ele = {
+                                'context': context,
+                                'candidate': last_candidate,
+                                'label': 0
+                            }
+                            output.append(new_ele)
+                        last_candidate = '[therapist]' + response
+                    # all_candidates.append('[therapist]' + response)
+                    # for ele in all_candidates:
+                    #     if ele in context:
+                    #         new_ele = {
+                    #             'context': context,
+                    #             'candidate': ele,
+                    #             'label': 0
+                    #         }
+                    #         output.append(new_ele)
         with open(f'{name}.json', 'w', encoding='utf-8') as f_0:
-            ujson.dump(output[:32], f_0, ensure_ascii=False, indent=4)
+            ujson.dump(output, f_0, ensure_ascii=False, indent=4)
         print(len(output))
     else:
         output = []

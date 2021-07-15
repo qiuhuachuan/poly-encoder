@@ -141,6 +141,7 @@ def evaluation(epoch):
 
 
 if __name__ == '__main__':
+    print('训练开始......')
     t0 = time.time()
     train()
 
